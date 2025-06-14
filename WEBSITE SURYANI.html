@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Rumah Makan Suryani</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(142, 135, 135, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .nav-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            color: rgb(234, 234, 234);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(45deg, #4ecdc4, #6dd5ed);
+            box-shadow: 0 5px 15px rgba(78, 205, 196, 0.3);
+        }
+
+        .page {
+            display: none;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .hero h2 {
+            font-size: 2.2em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.2em;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-card h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin: 10px 5px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-danger {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+        }
+
+        .btn-danger:hover {
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .btn-success {
+            background: linear-gradient(45deg, #28a745, #20c997);
+        }
+
+        .btn-success:hover {
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .table th,
+        .table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+            vertical-align: middle;
+        }
+
+        .table th {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: rgb(239, 237, 237);
+            font-weight: bold;
+        }
+
+        .table tr:hover {
+            background: #f9f9f9;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #4ecdc4 0%, #6dd5ed 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .stat-card h3 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .stat-card p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+        }
+
+        .section h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        #totalHargaTransaksi {
+            font-size: 1.3em;
+            color: #2c3e50;
+        }
+
+        @media (max-width: 768px) {
+            .nav-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .nav-btn {
+                width: 200px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .hero h2 {
+                font-size: 1.8em;
+            }
+
+            .table {
+                font-size: 14px;
+            }
+
+            .table th,
+            .table td {
+                padding: 10px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header" role="banner">
+            <h1>Rumah Makan Suryani</h1>
+            <p>Masakan tradisional kampuang</p>
+            <div class="nav-buttons" role="navigation" aria-label="Main navigation">
+                <button class="nav-btn active" onclick="showPage('beranda')" aria-current="page">Beranda</button>
+                <button class="nav-btn" onclick="showPage('customer')">Customer</button>
+                <button class="nav-btn" onclick="showPage('produk')">Produk</button>
+                <button class="nav-btn" onclick="showPage('transaksi')">Transaksi</button>
+            </div>
+        </div>
+
+        <!-- Halaman Beranda -->
+        <section id="beranda" class="page active" aria-label="Beranda">
+            <div class="hero">
+                <h2>Selamat Datang di Rumah Makan Suryani</h2>
+                <p>Nikmati pengalaman kuliner yang tak terlupakan dengan hidangan tradisional yang dibuat dengan resep turun temurun dan bahan-bahan pilihan berkualitas tinggi.</p>
+            </div>
+            <div class="features" role="list">
+                <article class="feature-card" role="listitem">
+                    <h3>Menu Tradisional</h3>
+                    <p>Berbagai hidangan khas dengan cita rasa autentik yang telah diwariskan turun temurun dalam keluarga kami.</p>
+                </article>
+                <article class="feature-card" role="listitem">
+                    <h3>Bahan Segar</h3>
+                    <p>Menggunakan bahan-bahan segar pilihan yang didatangkan langsung dari petani lokal untuk menjamin kualitas.</p>
+                </article>
+                <article class="feature-card" role="listitem">
+                    <h3>Chef Berpengalaman</h3>
+                    <p>Dimasak oleh chef berpengalaman dengan teknik memasak tradisional yang telah teruji selama bertahun-tahun.</p>
+                </article>
+            </div>
+        </section>
+
+        <!-- Halaman Customer -->
+        <section id="customer" class="page" aria-label="Kelola Customer">
+            <h2>Kelola Customer</h2>
+            <div class="section" aria-label="Tambah Customer Baru">
+                <h3>Tambah Customer Baru</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="idCustomer">ID Customer:</label>
+                        <input type="text" id="idCustomer" placeholder="Contoh: C001" maxlength="10" aria-required="true" />
+                    </div>
+                    <div class="form-group">
+                        <label for="namaCustomer">Nama Customer:</label>
+                        <input type="text" id="namaCustomer" placeholder="Masukkan nama customer" aria-required="true" />
+                    </div>
+                </div>
+                <button class="btn" onclick="tambahCustomer()">Tambah Customer</button>
+            </div>
+            <div class="section" aria-label="Daftar Customer">
+                <h3>Daftar Customer</h3>
+                <button class="btn btn-danger" onclick="clearCustomer()">Hapus Semua</button>
+                <table class="table" id="tabelCustomer" role="grid" aria-describedby="customerTableDesc" aria-live="polite">
+                    <caption id="customerTableDesc">Daftar semua customer yang terdaftar</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">ID Customer</th>
+                            <th scope="col">Nama Customer</th>
+                            <th scope="col">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bodyCustomer"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Halaman Produk -->
+        <section id="produk" class="page" aria-label="Kelola Produk">
+            <h2>Kelola Produk</h2>
+            <div class="section" aria-label="Tambah Produk Baru">
+                <h3>Tambah Produk Baru</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="idProduk">ID Produk:</label>
+                        <input type="text" id="idProduk" placeholder="Contoh: P001" maxlength="10" aria-required="true" />
+                    </div>
+                    <div class="form-group">
+                        <label for="namaProduk">Nama Produk:</label>
+                        <input type="text" id="namaProduk" placeholder="Masukkan nama produk" aria-required="true" />
+                    </div>
+                    <div class="form-group">
+                        <label for="hargaProduk">Harga (Rp):</label>
+                        <input type="number" id="hargaProduk" placeholder="Masukkan harga" min="0" aria-required="true" />
+                    </div>
+                </div>
+                <button class="btn" onclick="tambahProduk()">Tambah Produk</button>
+            </div>
+            <div class="section" aria-label="Daftar Produk">
+                <h3>Daftar Produk</h3>
+                <button class="btn btn-danger" onclick="clearProduk()">Hapus Semua</button>
+                <table class="table" id="tabelProduk" role="grid" aria-describedby="produkTableDesc" aria-live="polite">
+                    <caption id="produkTableDesc">Daftar semua produk yang tersedia</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">ID Produk</th>
+                            <th scope="col">Nama Produk</th>
+                            <th scope="col">Harga</th>
+                            <th scope="col">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bodyProduk"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Halaman Transaksi -->
+        <section id="transaksi" class="page" aria-label="Kelola Transaksi">
+            <h2>Kelola Transaksi</h2>
+            <div class="stats" aria-live="polite">
+                <div class="stat-card" role="region" aria-label="Total Transaksi">
+                    <h3 id="totalTransaksi">0</h3>
+                    <p>Total Transaksi</p>
+                </div>
+                <div class="stat-card" role="region" aria-label="Total Pendapatan">
+                    <h3 id="totalPendapatan">Rp 0</h3>
+                    <p>Total Pendapatan</p>
+                </div>
+                <div class="stat-card" role="region" aria-label="Transaksi Hari Ini">
+                    <h3 id="transaksiHariIni">0</h3>
+                    <p>Transaksi Hari Ini</p>
+                </div>
+            </div>
+            <div class="section" aria-label="Buat Transaksi Baru">
+                <h3>Buat Transaksi Baru</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="idTransaksi">ID Transaksi:</label>
+                        <input type="number" id="idTransaksi" placeholder="Masukkan ID transaksi" aria-required="true" />
+                    </div>
+                    <div class="form-group">
+                        <label for="customerTransaksi">Customer:</label>
+                        <select id="customerTransaksi" aria-required="true">
+                            <option value="">Pilih customer...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="tanggalTransaksi">Tanggal:</label>
+                        <input type="date" id="tanggalTransaksi" aria-required="true" />
+                    </div>
+                </div>
+                <button class="btn btn-success" onclick="buatTransaksi()">Buat Transaksi</button>
+            </div>
+            <div class="section" id="detailTransaksiSection" style="display: none;" aria-label="Detail Transaksi">
+                <h3>Detail Transaksi</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="produkTransaksi">Produk:</label>
+                        <select id="produkTransaksi" aria-required="true">
+                            <option value="">Pilih produk...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="jumlahTransaksi">Jumlah:</label>
+                        <input type="number" id="jumlahTransaksi" placeholder="Masukkan jumlah" min="1" aria-required="true" />
+                    </div>
+                </div>
+                <button class="btn" onclick="tambahDetailTransaksi()">Tambah ke Transaksi</button>
+                <button class="btn btn-success" onclick="selesaikanTransaksi()">Selesaikan Transaksi</button>
+                <button class="btn btn-danger" onclick="batalkanTransaksi()">Batalkan</button>
+
+                <table
+                    class="table"
+                    id="tabelDetailTransaksi"
+                    role="grid"
+                    aria-describedby="detailTransaksiTableDesc"
+                    aria-live="polite"
+                >
+                    <caption id="detailTransaksiTableDesc">Detail produk yang ditambahkan ke transaksi</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Produk</th>
+                            <th scope="col">Harga Satuan</th>
+                            <th scope="col">Jumlah</th>
+                            <th scope="col">Subtotal</th>
+                            <th scope="col">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bodyDetailTransaksi"></tbody>
+                </table>
+
+                <div
+                    style="text-align: right; margin-top: 20px; font-size: 1.4em; font-weight: bold; color: #2c3e50;"
+                    aria-live="polite"
+                    aria-atomic="true"
+                >
+                    Total: <span id="totalHargaTransaksi">Rp 0</span>
+                </div>
+            </div>
+            <div class="section" aria-label="Riwayat Transaksi">
+                <h3>Riwayat Transaksi</h3>
+                <button class="btn btn-danger" onclick="clearTransaksi()">Hapus Semua</button>
+                <table
+                    class="table"
+                    id="tabelTransaksi"
+                    role="grid"
+                    aria-describedby="riwayatTransaksiTableDesc"
+                    aria-live="polite"
+                >
+                    <caption id="riwayatTransaksiTableDesc">Daftar riwayat semua transaksi</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">ID Transaksi</th>
+                            <th scope="col">Tanggal</th>
+                            <th scope="col">Customer</th>
+                            <th scope="col">Total</th>
+                            <th scope="col">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bodyTransaksi"></tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Database simulation in memory and persistent storage with localStorage
+        let customers = [];
+        let products = [];
+        let transactionHeaders = [];
+        let transactionDetails = [];
+        let currentTransaction = null;
+
+        // Load data on page load
+        window.onload = function () {
+            // Set default date to today
+            const tanggalInput = document.getElementById('tanggalTransaksi');
+            tanggalInput.value = new Date().toISOString().split('T')[0];
+
+            loadData();
+
+            updateAllTables();
+            updateOptions();
+            updateStats();
+            autoIncrementIdTransaksi(); // Initialize transaction ID input automatically
+        };
+
+        // Save data to localStorage
+        function saveData() {
+            localStorage.setItem('customers', JSON.stringify(customers));
+            localStorage.setItem('products', JSON.stringify(products));
+            localStorage.setItem('transactionHeaders', JSON.stringify(transactionHeaders));
+            localStorage.setItem('transactionDetails', JSON.stringify(transactionDetails));
+        }
+
+        // Load data from localStorage
+        function loadData() {
+            const storedCustomers = localStorage.getItem('customers');
+            const storedProducts = localStorage.getItem('products');
+            const storedTransactionHeaders = localStorage.getItem('transactionHeaders');
+            const storedTransactionDetails = localStorage.getItem('transactionDetails');
+
+            if (storedCustomers) customers = JSON.parse(storedCustomers);
+            if (storedProducts) products = JSON.parse(storedProducts);
+            if (storedTransactionHeaders) transactionHeaders = JSON.parse(storedTransactionHeaders);
+            if (storedTransactionDetails) transactionDetails = JSON.parse(storedTransactionDetails);
+        }
+
+        // Navigation function
+        function showPage(pageId) {
+            const pages = document.querySelectorAll('.page');
+            pages.forEach((page) => page.classList.remove('active'));
+
+            document.getElementById(pageId).classList.add('active');
+
+            const buttons = document.querySelectorAll('.nav-btn');
+            buttons.forEach((btn) => btn.classList.remove('active'));
+            if (event?.target) event.target.classList.add('active');
+        }
+
+        // Auto increment transaction ID based on existing transactionHeaders
+        function autoIncrementIdTransaksi() {
+            const idTransaksiInput = document.getElementById('idTransaksi');
+            if (transactionHeaders.length === 0) {
+                idTransaksiInput.value = 1;
+            } else {
+                const maxId = Math.max(...transactionHeaders.map((t) => t.ID_TRANSAKSI));
+                idTransaksiInput.value = maxId + 1;
+            }
+        }
+
+        // Customer Management
+        function tambahCustomer() {
+            const id = document.getElementById('idCustomer').value.trim().toUpperCase();
+            const nama = document.getElementById('namaCustomer').value.trim();
+
+            if (!id || !nama) {
+                alert('Mohon isi semua field!');
+                return;
+            }
+
+            if (customers.find((c) => c.ID_PEM === id)) {
+                alert('ID Customer sudah ada!');
+                return;
+            }
+
+            customers.push({
+                ID_PEM: id,
+                PEMBELI: nama,
+            });
+
+            saveData();
+            updateCustomerTable();
+            updateOptions();
+            clearCustomerForm();
+            alert('Customer berhasil ditambahkan!');
+        }
+
+        function clearCustomerForm() {
+            document.getElementById('idCustomer').value = '';
+            document.getElementById('namaCustomer').value = '';
+        }
+
+        function updateCustomerTable() {
+            const tbody = document.getElementById('bodyCustomer');
+            tbody.innerHTML = '';
+
+            customers.forEach((customer, index) => {
+                const row = `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${customer.ID_PEM}</td>
+                        <td>${customer.PEMBELI}</td>
+                        <td>
+                            <button class="btn btn-danger" onclick="hapusCustomer('${customer.ID_PEM}')">Hapus</button>
+                        </td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+        }
+
+        function hapusCustomer(id) {
+            if (confirm('Yakin ingin menghapus customer ini?')) {
+                customers = customers.filter((c) => c.ID_PEM !== id);
+                saveData();
+                updateCustomerTable();
+                updateOptions();
+                alert('Customer berhasil dihapus!');
+            }
+        }
+
+        function clearCustomer() {
+            if (confirm('Yakin ingin menghapus semua data customer?')) {
+                customers = [];
+                saveData();
+                updateCustomerTable();
+                updateOptions();
+                alert('Semua data customer berhasil dihapus!');
+            }
+        }
+
+        // Product Management
+        function tambahProduk() {
+            const id = document.getElementById('idProduk').value.trim().toUpperCase();
+            const nama = document.getElementById('namaProduk').value.trim();
+            const harga = parseInt(document.getElementById('hargaProduk').value);
+
+            if (!id || !nama || isNaN(harga)) {
+                alert('Mohon isi semua field!');
+                return;
+            }
+
+            if (harga < 0) {
+                alert('Harga tidak boleh negatif!');
+                return;
+            }
+
+            if (products.find((p) => p.ID_PRODUK === id)) {
+                alert('ID Produk sudah ada!');
+                return;
+            }
+
+            products.push({
+                ID_PRODUK: id,
+                PRODUK: nama,
+                HARGA: harga,
+            });
+
+            saveData();
+            updateProdukTable();
+            updateOptions();
+            clearProdukForm();
+            alert('Produk berhasil ditambahkan!');
+        }
+
+        function clearProdukForm() {
+            document.getElementById('idProduk').value = '';
+            document.getElementById('namaProduk').value = '';
+            document.getElementById('hargaProduk').value = '';
+        }
+
+        function updateProdukTable() {
+            const tbody = document.getElementById('bodyProduk');
+            tbody.innerHTML = '';
+
+            products.forEach((product, index) => {
+                const row = `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${product.ID_PRODUK}</td>
+                        <td>${product.PRODUK}</td>
+                        <td>Rp ${product.HARGA.toLocaleString('id-ID')}</td>
+                        <td>
+                            <button class="btn btn-danger" onclick="hapusProduk('${product.ID_PRODUK}')">Hapus</button>
+                        </td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+        }
+
+        function hapusProduk(id) {
+            if (confirm('Yakin ingin menghapus produk ini?')) {
+                products = products.filter((p) => p.ID_PRODUK !== id);
+                saveData();
+                updateProdukTable();
+                updateOptions();
+                alert('Produk berhasil dihapus!');
+            }
+        }
+
+        function clearProduk() {
+            if (confirm('Yakin ingin menghapus semua data produk?')) {
+                products = [];
+                saveData();
+                updateProdukTable();
+                updateOptions();
+                alert('Semua data produk berhasil dihapus!');
+            }
+        }
+
+        // Transaction Management
+        function updateOptions() {
+            // Update customer options
+            const customerSelect = document.getElementById('customerTransaksi');
+            customerSelect.innerHTML = '<option value="">Pilih customer...</option>';
+            customers.forEach(({ ID_PEM, PEMBELI }) => {
+                customerSelect.innerHTML += `<option value="${ID_PEM}">${PEMBELI} (${ID_PEM})</option>`;
+            });
+
+            // Update product options
+            const produkSelect = document.getElementById('produkTransaksi');
+            produkSelect.innerHTML = '<option value="">Pilih produk...</option>';
+            products.forEach(({ ID_PRODUK, PRODUK, HARGA }) => {
+                produkSelect.innerHTML += `<option value="${ID_PRODUK}">${PRODUK} - Rp ${HARGA.toLocaleString('id-ID')}</option>`;
+            });
+        }
+
+        function buatTransaksi() {
+            const idTransaksiField = document.getElementById('idTransaksi');
+            const idTransaksi = parseInt(idTransaksiField.value);
+            const customerId = document.getElementById('customerTransaksi').value;
+            const tanggal = document.getElementById('tanggalTransaksi').value;
+
+            if (!idTransaksi || !customerId || !tanggal) {
+                alert('Mohon isi semua field!');
+                return;
+            }
+
+            if (transactionHeaders.find((t) => t.ID_TRANSAKSI === idTransaksi)) {
+                alert('ID Transaksi sudah ada!');
+                return;
+            }
+
+            currentTransaction = {
+                ID_TRANSAKSI: idTransaksi,
+                TANGGAL: tanggal,
+                ID_PEM: customerId,
+                details: [],
+            };
+
+            document.getElementById('detailTransaksiSection').style.display = 'block';
+            updateDetailTransaksiTable();
+            alert('Transaksi berhasil dibuat! Silakan tambahkan produk.');
+
+            // Disable editing transaction fields while building the current transaction
+            idTransaksiField.disabled = true;
+            document.getElementById('customerTransaksi').disabled = true;
+            document.getElementById('tanggalTransaksi').disabled = true;
+        }
+
+        function tambahDetailTransaksi() {
+            if (!currentTransaction) {
+                alert('Buat transaksi terlebih dahulu!');
+                return;
+            }
+
+            const produkId = document.getElementById('produkTransaksi').value;
+            const jumlah = parseInt(document.getElementById('jumlahTransaksi').value);
+
+            if (!produkId || !jumlah || isNaN(jumlah)) {
+                alert('Mohon pilih produk dan masukkan jumlah!');
+                return;
+            }
+
+            if (jumlah <= 0) {
+                alert('Jumlah harus lebih dari 0!');
+                return;
+            }
+
+            if (currentTransaction.details.find((d) => d.ID_PRODUK === produkId)) {
+                alert('Produk sudah ada dalam transaksi ini!');
+                return;
+            }
+
+            const product = products.find((p) => p.ID_PRODUK === produkId);
+            if (!product) {
+                alert('Produk tidak ditemukan!');
+                return;
+            }
+
+            currentTransaction.details.push({
+                ID_TRANSAKSI: currentTransaction.ID_TRANSAKSI,
+                ID_PRODUK: produkId,
+                BANYAK: jumlah,
+                PRODUK: product.PRODUK,
+                HARGA: product.HARGA,
+                SUBTOTAL: product.HARGA * jumlah,
+            });
+
+            updateDetailTransaksiTable();
+            document.getElementById('produkTransaksi').value = '';
+            document.getElementById('jumlahTransaksi').value = '';
+        }
+
+        function updateDetailTransaksiTable() {
+            const tbody = document.getElementById('bodyDetailTransaksi');
+            tbody.innerHTML = '';
+
+            let total = 0;
+            if (currentTransaction && currentTransaction.details) {
+                currentTransaction.details.forEach((detail, index) => {
+                    total += detail.SUBTOTAL;
+                    const row = `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${detail.PRODUK}</td>
+                            <td>Rp ${detail.HARGA.toLocaleString('id-ID')}</td>
+                            <td>${detail.BANYAK}</td>
+                            <td>Rp ${detail.SUBTOTAL.toLocaleString('id-ID')}</td>
+                            <td>
+                                <button class="btn btn-danger" onclick="hapusDetailTransaksi('${detail.ID_PRODUK}')">Hapus</button>
+                            </td>
+                        </tr>
+                    `;
+                    tbody.innerHTML += row;
+                });
+            }
+            // Update the visible total price display immediately
+            document.getElementById('totalHargaTransaksi').textContent = `Rp ${total.toLocaleString('id-ID')}`;
+        }
+
+        function hapusDetailTransaksi(produkId) {
+            if (currentTransaction) {
+                currentTransaction.details = currentTransaction.details.filter((d) => d.ID_PRODUK !== produkId);
+                updateDetailTransaksiTable();
+            }
+        }
+
+        function selesaikanTransaksi() {
+            if (!currentTransaction || currentTransaction.details.length === 0) {
+                alert('Transaksi kosong! Tambahkan produk terlebih dahulu.');
+                return;
+            }
+
+            transactionHeaders.push({
+                ID_TRANSAKSI: currentTransaction.ID_TRANSAKSI,
+                TANGGAL: currentTransaction.TANGGAL,
+                ID_PEM: currentTransaction.ID_PEM,
+            });
+
+            currentTransaction.details.forEach((detail) => {
+                transactionDetails.push({
+                    ID_TRANSAKSI: detail.ID_TRANSAKSI,
+                    ID_PRODUK: detail.ID_PRODUK,
+                    BANYAK: detail.BANYAK,
+                });
+            });
+
+            saveData();
+            updateTransaksiTable();
+            updateStats();
+            resetTransaksiForm();
+            alert('Transaksi berhasil diselesaikan!');
+            autoIncrementIdTransaksi(); // Refresh transaction ID for next new transaction
+        }
+
+        function batalkanTransaksi() {
+            if (confirm('Yakin ingin membatalkan transaksi ini?')) {
+                resetTransaksiForm();
+                alert('Transaksi dibatalkan!');
+            }
+        }
+
+        function resetTransaksiForm() {
+            currentTransaction = null;
+            const idTransaksiField = document.getElementById('idTransaksi');
+            idTransaksiField.value = '';
+            idTransaksiField.disabled = false;
+            document.getElementById('customerTransaksi').value = '';
+            document.getElementById('customerTransaksi').disabled = false;
+            document.getElementById('tanggalTransaksi').value = new Date().toISOString().split('T')[0];
+            document.getElementById('tanggalTransaksi').disabled = false;
+            document.getElementById('produkTransaksi').value = '';
+            document.getElementById('jumlahTransaksi').value = '';
+            document.getElementById('detailTransaksiSection').style.display = 'none';
+            updateDetailTransaksiTable();
+            // Clear totalHargaTransaksi on reset
+            document.getElementById('totalHargaTransaksi').textContent = 'Rp 0';
+        }
+
+        function updateTransaksiTable() {
+            const tbody = document.getElementById('bodyTransaksi');
+            tbody.innerHTML = '';
+
+            transactionHeaders.forEach((header, index) => {
+                const customer = customers.find((c) => c.ID_PEM === header.ID_PEM);
+                const customerName = customer ? customer.PEMBELI : 'Unknown';
+
+                const details = transactionDetails.filter((d) => d.ID_TRANSAKSI === header.ID_TRANSAKSI);
+                let total = 0;
+                details.forEach((detail) => {
+                    const product = products.find((p) => p.ID_PRODUK === detail.ID_PRODUK);
+                    if (product) {
+                        total += product.HARGA * detail.BANYAK;
+                    }
+                });
+
+                const row = `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${header.ID_TRANSAKSI}</td>
+                        <td>${new Date(header.TANGGAL).toLocaleDateString('id-ID')}</td>
+                        <td>${customerName}</td>
+                        <td>Rp ${total.toLocaleString('id-ID')}</td>
+                        <td>
+                            <button class="btn" onclick="lihatDetailTransaksi(${header.ID_TRANSAKSI})">Detail</button>
+                            <button class="btn btn-danger" onclick="hapusTransaksi(${header.ID_TRANSAKSI})">Hapus</button>
+                        </td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+        }
+
+        function lihatDetailTransaksi(idTransaksi) {
+            const details = transactionDetails.filter((d) => d.ID_TRANSAKSI === idTransaksi);
+            let message = `Detail Transaksi #${idTransaksi}:\n\n`;
+            let total = 0;
+
+            details.forEach((detail) => {
+                const product = products.find((p) => p.ID_PRODUK === detail.ID_PRODUK);
+                if (product) {
+                    const subtotal = product.HARGA * detail.BANYAK;
+                    total += subtotal;
+                    message += `${product.PRODUK}\nHarga: Rp ${product.HARGA.toLocaleString(
+                        'id-ID'
+                    )}\nJumlah: ${detail.BANYAK}\nSubtotal: Rp ${subtotal.toLocaleString('id-ID')}\n\n`;
+                }
+            });
+
+            message += `Total: Rp ${total.toLocaleString('id-ID')}`;
+            alert(message);
+        }
+
+        function hapusTransaksi(idTransaksi) {
+            if (confirm('Yakin ingin menghapus transaksi ini?')) {
+                transactionHeaders = transactionHeaders.filter((t) => t.ID_TRANSAKSI !== idTransaksi);
+                transactionDetails = transactionDetails.filter((d) => d.ID_TRANSAKSI !== idTransaksi);
+                saveData();
+                updateTransaksiTable();
+                updateStats();
+                alert('Transaksi berhasil dihapus!');
+            }
+        }
+
+        function clearTransaksi() {
+            if (confirm('Yakin ingin menghapus semua data transaksi?')) {
+                transactionHeaders = [];
+                transactionDetails = [];
+                saveData();
+                updateTransaksiTable();
+                updateStats();
+                alert('Semua data transaksi berhasil dihapus!');
+            }
+        }
+
+        function updateStats() {
+            const totalTransaksi = transactionHeaders.length;
+
+            let totalPendapatan = 0;
+            transactionHeaders.forEach((header) => {
+                const details = transactionDetails.filter((d) => d.ID_TRANSAKSI === header.ID_TRANSAKSI);
+                details.forEach((detail) => {
+                    const product = products.find((p) => p.ID_PRODUK === detail.ID_PRODUK);
+                    if (product) {
+                        totalPendapatan += product.HARGA * detail.BANYAK;
+                    }
+                });
+            });
+
+            const today = new Date().toISOString().split('T')[0];
+            const transaksiHariIni = transactionHeaders.filter((t) => t.TANGGAL === today).length;
+
+            document.getElementById('totalTransaksi').textContent = totalTransaksi;
+            document.getElementById('totalPendapatan').textContent = `Rp ${totalPendapatan.toLocaleString('id-ID')}`;
+            document.getElementById('transaksiHariIni').textContent = transaksiHariIni;
+        }
+
+        function updateAllTables() {
+            updateCustomerTable();
+            updateProdukTable();
+            updateTransaksiTable();
+        }
+    </script>
+</body>
+</html>
+
