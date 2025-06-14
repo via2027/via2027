@@ -330,24 +330,38 @@
 
         <!-- Halaman Beranda -->
         <section id="beranda" class="page active" aria-label="Beranda">
-            <div class="hero">
-                <h2>Selamat Datang di Rumah Makan Suryani</h2>
-                <p>Nikmati pengalaman kuliner yang tak terlupakan dengan hidangan tradisional yang dibuat dengan resep turun temurun dan bahan-bahan pilihan berkualitas tinggi.</p>
-            </div>
-            <div class="features" role="list">
-                <article class="feature-card" role="listitem">
-                    <h3>Menu Tradisional</h3>
-                    <p>Berbagai hidangan khas dengan cita rasa autentik yang telah diwariskan turun temurun dalam keluarga kami.</p>
-                </article>
-                <article class="feature-card" role="listitem">
-                    <h3>Bahan Segar</h3>
-                    <p>Menggunakan bahan-bahan segar pilihan yang didatangkan langsung dari petani lokal untuk menjamin kualitas.</p>
-                </article>
-                <article class="feature-card" role="listitem">
-                    <h3>Chef Berpengalaman</h3>
-                    <p>Dimasak oleh chef berpengalaman dengan teknik memasak tradisional yang telah teruji selama bertahun-tahun.</p>
-                </article>
-            </div>
+    <script>
+        // Meminta pengguna untuk memasukkan password
+        var password = prompt("Masukkan password untuk mengakses halaman Beranda:");
+        
+        // Memeriksa apakah password yang dimasukkan benar
+        if (password !== "SURYANI JAYA") {
+            alert("Password salah! Akses ditolak.");
+            // Mengalihkan pengguna ke halaman lain atau menutup halaman
+            window.location.href = "index.html"; // Ganti dengan URL halaman yang diinginkan
+        }
+    </script>
+    
+    <div class="hero">
+        <h2>Selamat Datang di Rumah Makan Suryani</h2>
+        <p>Nikmati pengalaman kuliner yang tak terlupakan dengan hidangan tradisional yang dibuat dengan resep turun temurun dan bahan-bahan pilihan berkualitas tinggi.</p>
+    </div>
+    <div class="features" role="list">
+        <article class="feature-card" role="listitem">
+            <h3>Menu Tradisional</h3>
+            <p>Berbagai hidangan khas dengan cita rasa autentik yang telah diwariskan turun temurun dalam keluarga kami.</p>
+        </article>
+        <article class="feature-card" role="listitem">
+            <h3>Bahan Segar</h3>
+            <p>Menggunakan bahan-bahan segar pilihan yang didatangkan langsung dari petani lokal untuk menjamin kualitas.</p>
+        </article>
+        <article class="feature-card" role="listitem">
+            <h3>Chef Berpengalaman</h3>
+            <p>Dimasak oleh chef berpengalaman dengan teknik memasak tradisional yang telah teruji selama bertahun-tahun.</p>
+        </article>
+    </div>
+</section>
+
         </section>
 
         <!-- Halaman Customer -->
@@ -427,115 +441,121 @@
 
         <!-- Halaman Transaksi -->
         <section id="transaksi" class="page" aria-label="Kelola Transaksi">
-            <h2>Kelola Transaksi</h2>
-            <div class="stats" aria-live="polite">
-                <div class="stat-card" role="region" aria-label="Total Transaksi">
-                    <h3 id="totalTransaksi">0</h3>
-                    <p>Total Transaksi</p>
-                </div>
-                <div class="stat-card" role="region" aria-label="Total Pendapatan">
-                    <h3 id="totalPendapatan">Rp 0</h3>
-                    <p>Total Pendapatan</p>
-                </div>
-                <div class="stat-card" role="region" aria-label="Transaksi Hari Ini">
-                    <h3 id="transaksiHariIni">0</h3>
-                    <p>Transaksi Hari Ini</p>
-                </div>
-            </div>
-            <div class="section" aria-label="Buat Transaksi Baru">
-                <h3>Buat Transaksi Baru</h3>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="idTransaksi">ID Transaksi:</label>
-                        <input type="number" id="idTransaksi" placeholder="Masukkan ID transaksi" aria-required="true" />
-                    </div>
-                    <div class="form-group">
-                        <label for="customerTransaksi">Customer:</label>
-                        <select id="customerTransaksi" aria-required="true">
-                            <option value="">Pilih customer...</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="tanggalTransaksi">Tanggal:</label>
-                        <input type="date" id="tanggalTransaksi" aria-required="true" />
-                    </div>
-                </div>
-                <button class="btn btn-success" onclick="buatTransaksi()">Buat Transaksi</button>
-            </div>
-            <div class="section" id="detailTransaksiSection" style="display: none;" aria-label="Detail Transaksi">
-                <h3>Detail Transaksi</h3>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="produkTransaksi">Produk:</label>
-                        <select id="produkTransaksi" aria-required="true">
-                            <option value="">Pilih produk...</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="jumlahTransaksi">Jumlah:</label>
-                        <input type="number" id="jumlahTransaksi" placeholder="Masukkan jumlah" min="1" aria-required="true" />
-                    </div>
-                </div>
-                <button class="btn" onclick="tambahDetailTransaksi()">Tambah ke Transaksi</button>
-                <button class="btn btn-success" onclick="selesaikanTransaksi()">Selesaikan Transaksi</button>
-                <button class="btn btn-danger" onclick="batalkanTransaksi()">Batalkan</button>
-
-                <table
-                    class="table"
-                    id="tabelDetailTransaksi"
-                    role="grid"
-                    aria-describedby="detailTransaksiTableDesc"
-                    aria-live="polite"
-                >
-                    <caption id="detailTransaksiTableDesc">Detail produk yang ditambahkan ke transaksi</caption>
-                    <thead>
-                        <tr>
-                            <th scope="col">No</th>
-                            <th scope="col">Produk</th>
-                            <th scope="col">Harga Satuan</th>
-                            <th scope="col">Jumlah</th>
-                            <th scope="col">Subtotal</th>
-                            <th scope="col">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody id="bodyDetailTransaksi"></tbody>
-                </table>
-
-                <div
-                    style="text-align: right; margin-top: 20px; font-size: 1.4em; font-weight: bold; color: #2c3e50;"
-                    aria-live="polite"
-                    aria-atomic="true"
-                >
-                    Total: <span id="totalHargaTransaksi">Rp 0</span>
-                </div>
-            </div>
-            <div class="section" aria-label="Riwayat Transaksi">
-                <h3>Riwayat Transaksi</h3>
-                <button class="btn btn-danger" onclick="clearTransaksi()">Hapus Semua</button>
-                <table
-                    class="table"
-                    id="tabelTransaksi"
-                    role="grid"
-                    aria-describedby="riwayatTransaksiTableDesc"
-                    aria-live="polite"
-                >
-                    <caption id="riwayatTransaksiTableDesc">Daftar riwayat semua transaksi</caption>
-                    <thead>
-                        <tr>
-                            <th scope="col">No</th>
-                            <th scope="col">ID Transaksi</th>
-                            <th scope="col">Tanggal</th>
-                            <th scope="col">Customer</th>
-                            <th scope="col">Total</th>
-                            <th scope="col">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody id="bodyTransaksi"></tbody>
-                </table>
-            </div>
-        </section>
+    <h2>Kelola Transaksi</h2>
+    <div class="stats" aria-live="polite">
+        <div class="stat-card" role="region" aria-label="Total Transaksi">
+            <h3 id="totalTransaksi">0</h3>
+            <p>Total Transaksi</p>
+        </div>
+        <div class="stat-card" role="region" aria-label="Total Pendapatan">
+            <h3 id="totalPendapatan">Rp 0</h3>
+            <p>Total Pendapatan</p>
+        </div>
+        <div class="stat-card" role="region" aria-label="Transaksi Hari Ini">
+            <h3 id="transaksiHariIni">0</h3>
+            <p>Transaksi Hari Ini</p>
+        </div>
     </div>
+    <div class="section" aria-label="Buat Transaksi Baru">
+        <h3>Buat Transaksi Baru</h3>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="idTransaksi">ID Transaksi:</label>
+                <input type="number" id="idTransaksi" placeholder="Masukkan ID transaksi" aria-required="true" />
+            </div>
+            <div class="form-group">
+                <label for="customerTransaksi">Customer:</label>
+                <select id="customerTransaksi" aria-required="true">
+                    <option value="">Pilih customer...</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="jenisPesanan">Jenis Pesanan:</label>
+                <select id="jenisPesanan" aria-required="true">
+                    <option value="">Pilih jenis pesanan...</option>
+                    <option value="makanDiSini">Makan Di Sini</option>
+                    <option value="bawaPulang">Bawa Pulang</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="tanggalTransaksi">Tanggal:</label>
+                <input type="date" id="tanggalTransaksi" aria-required="true" />
+            </div>
+        </div>
+        <button class="btn btn-success" onclick="buatTransaksi()">Buat Transaksi</button>
+    </div>
+    <div class="section" id="detailTransaksiSection" style="display: none;" aria-label="Detail Transaksi">
+        <h3>Detail Transaksi</h3>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="produkTransaksi">Produk:</label>
+                <select id="produkTransaksi" aria-required="true">
+                    <option value="">Pilih produk...</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="jumlahTransaksi">Jumlah:</label>
+                <input type="number" id="jumlahTransaksi" placeholder="Masukkan jumlah" min="1" aria-required="true" />
+            </div>
+        </div>
+        <button class="btn" onclick="tambahDetailTransaksi()">Tambah ke Transaksi</button>
+        <button class="btn btn-success" onclick="selesaikanTransaksi()">Selesaikan Transaksi</button>
+        <button class="btn btn-danger" onclick="batalkanTransaksi()">Batalkan</button>
 
+        <table
+            class="table"
+            id="tabelDetailTransaksi"
+            role="grid"
+            aria-describedby="detailTransaksiTableDesc"
+            aria-live="polite"
+        >
+            <caption id="detailTransaksiTableDesc">Detail produk yang ditambahkan ke transaksi</caption>
+            <thead>
+                <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">Produk</th>
+                    <th scope="col">Harga Satuan</th>
+                    <th scope="col">Jumlah</th>
+                    <th scope="col">Subtotal</th>
+                    <th scope="col">Aksi</th>
+                </tr>
+            </thead>
+            <tbody id="bodyDetailTransaksi"></tbody>
+        </table>
+
+        <div
+            style="text-align: right; margin-top: 20px; font-size: 1.4em; font-weight: bold; color: #2c3e50;"
+            aria-live="polite"
+            aria-atomic="true"
+        >
+            Total: <span id="totalHargaTransaksi">Rp 0</span>
+        </div>
+    </div>
+    <div class="section" aria-label="Riwayat Transaksi">
+        <h3>Riwayat Transaksi</h3>
+        <button class="btn btn-danger" onclick="clearTransaksi()">Hapus Semua</button>
+        <table
+            class="table"
+            id="tabelTransaksi"
+            role="grid"
+            aria-describedby="riwayatTransaksiTableDesc"
+            aria-live="polite"
+        >
+            <caption id="riwayatTransaksiTableDesc">Daftar riwayat semua transaksi</caption>
+            <thead>
+                <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">ID Transaksi</th>
+                    <th scope="col">Tanggal</th>
+                    <th scope="col">Customer</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">Aksi</th>
+                </tr>
+            </thead>
+            <tbody id="bodyTransaksi"></tbody>
+        </table>
+    </div>
+</section>
     <script>
         // Database simulation in memory and persistent storage with localStorage
         let customers = [];
