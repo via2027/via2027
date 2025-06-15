@@ -623,155 +623,210 @@
         }
 
         // Customer Management
-        function tambahCustomer() {
-            const id = document.getElementById('idCustomer').value.trim().toUpperCase();
-            const nama = document.getElementById('namaCustomer').value.trim();
+function getNextCustomerId() {
+    if (customers.length === 0) {
+        return 'C001';
+    }
+    
+    // Ambil ID terakhir dan ekstrak angkanya
+    const lastCustomer = customers[customers.length - 1];
+    const lastId = lastCustomer.ID_PEM;
+    const numPart = parseInt(lastId.substring(1)); // Ambil angka setelah 'C'
+    const nextNum = numPart + 1;
+    
+    // Format dengan leading zeros (C001, C002, dst.)
+    return 'C' + nextNum.toString().padStart(3, '0');
+}
 
-            if (!id || !nama) {
-                alert('Mohon isi semua field!');
-                return;
-            }
+function tambahCustomer() {
+    const nama = document.getElementById('namaCustomer').value.trim();
+    if (!nama) {
+        alert('Mohon isi nama customer!');
+        return;
+    }
+    
+    // Generate ID otomatis
+    const id = getNextCustomerId();
+    
+    customers.push({
+        ID_PEM: id,
+        PEMBELI: nama,
+    });
+    saveData();
+    updateCustomerTable();
+    updateOptions();
+    clearCustomerForm();
+    alert(`Customer berhasil ditambahkan dengan ID: ${id}`);
+}
 
-            if (customers.find((c) => c.ID_PEM === id)) {
-                alert('ID Customer sudah ada!');
-                return;
-            }
+function clearCustomerForm() {
+    // Hapus field ID dari form karena sudah auto increment
+    document.getElementById('namaCustomer').value = '';
+}
 
-            customers.push({
-                ID_PEM: id,
-                PEMBELI: nama,
-            });
+function updateCustomerTable() {
+    const tbody = document.getElementById('bodyCustomer');
+    tbody.innerHTML = '';
+    customers.forEach((customer, index) => {
+        const row = `
+            <tr>
+                <td>${index + 1}</td>
+                <td>${customer.ID_PEM}</td>
+                <td>${customer.PEMBELI}</td>
+                <td>
+                    <button class="btn btn-danger" onclick="hapusCustomer('${customer.ID_PEM}')">Hapus</button>
+                </td>
+            </tr>
+        `;
+        tbody.innerHTML += row;
+    });
+}
 
-            saveData();
-            updateCustomerTable();
-            updateOptions();
-            clearCustomerForm();
-            alert('Customer berhasil ditambahkan!');
-        }
+function hapusCustomer(id) {
+    if (confirm('Yakin ingin menghapus customer ini?')) {
+        customers = customers.filter((c) => c.ID_PEM !== id);
+        saveData();
+        updateCustomerTable();
+        updateOptions();
+        alert('Customer berhasil dihapus!');
+    }
+}
 
-        function clearCustomerForm() {
-            document.getElementById('idCustomer').value = '';
-            document.getElementById('namaCustomer').value = '';
-        }
-
-        function updateCustomerTable() {
-            const tbody = document.getElementById('bodyCustomer');
-            tbody.innerHTML = '';
-
-            customers.forEach((customer, index) => {
-                const row = `
-                    <tr>
-                        <td>${index + 1}</td>
-                        <td>${customer.ID_PEM}</td>
-                        <td>${customer.PEMBELI}</td>
-                        <td>
-                            <button class="btn btn-danger" onclick="hapusCustomer('${customer.ID_PEM}')">Hapus</button>
-                        </td>
-                    </tr>
-                `;
-                tbody.innerHTML += row;
-            });
-        }
-
-        function hapusCustomer(id) {
-            if (confirm('Yakin ingin menghapus customer ini?')) {
-                customers = customers.filter((c) => c.ID_PEM !== id);
-                saveData();
-                updateCustomerTable();
-                updateOptions();
-                alert('Customer berhasil dihapus!');
-            }
-        }
-
-        function clearCustomer() {
-            if (confirm('Yakin ingin menghapus semua data customer?')) {
-                customers = [];
-                saveData();
-                updateCustomerTable();
-                updateOptions();
-                alert('Semua data customer berhasil dihapus!');
-            }
-        }
+function clearCustomer() {
+    if (confirm('Yakin ingin menghapus semua data customer?')) {
+        customers = [];
+        saveData();
+        updateCustomerTable();
+        updateOptions();
+        alert('Semua data customer berhasil dihapus!');
+    }
+}
 
         // Product Management
-        function tambahProduk() {
-            const id = document.getElementById('idProduk').value.trim().toUpperCase();
-            const nama = document.getElementById('namaProduk').value.trim();
-            const harga = parseInt(document.getElementById('hargaProduk').value);
+       // Fungsi untuk mendapatkan ID produk berikutnya
+function getNextProductId() {
+    if (products.length === 0) {
+        return 'P001';
+    }
+    
+    // Cari ID tertinggi dari produk yang ada
+    const maxNumber = Math.max(...products.map(p => {
+        // Extract number dari ID (misal: P001 -> 1)
+        const match = p.ID_PRODUK.match(/\d+/);
+        return match ? parseInt(match[0]) : 0;
+    }));
+    
+    // Format dengan padding zero (P001, P002, dst)
+    const nextNumber = maxNumber + 1;
+    return 'P' + nextNumber.toString().padStart(3, '0');
+}
 
-            if (!id || !nama || isNaN(harga)) {
-                alert('Mohon isi semua field!');
-                return;
-            }
+// Fungsi untuk mengatur ID produk otomatis
+function setAutoProductId() {
+    const idProdukField = document.getElementById('idProduk');
+    const nextId = getNextProductId();
+    idProdukField.value = nextId;
+    
+    // Buat field readonly agar user tidak bisa mengubah
+    idProdukField.readOnly = true;
+    idProdukField.style.backgroundColor = '#f8f9fa';
+}
 
-            if (harga < 0) {
-                alert('Harga tidak boleh negatif!');
-                return;
-            }
+function tambahProduk() {
+    const id = document.getElementById('idProduk').value.trim().toUpperCase();
+    const nama = document.getElementById('namaProduk').value.trim();
+    const harga = parseInt(document.getElementById('hargaProduk').value);
+    
+    if (!id || !nama || isNaN(harga)) {
+        alert('Mohon isi semua field!');
+        return;
+    }
+    
+    if (harga < 0) {
+        alert('Harga tidak boleh negatif!');
+        return;
+    }
+    
+    // Tidak perlu check ID duplikat karena auto increment
+    // if (products.find((p) => p.ID_PRODUK === id)) {
+    //     alert('ID Produk sudah ada!');
+    //     return;
+    // }
+    
+    products.push({
+        ID_PRODUK: id,
+        PRODUK: nama,
+        HARGA: harga,
+    });
+    
+    saveData();
+    updateProdukTable();
+    updateOptions();
+    clearProdukForm();
+    alert('Produk berhasil ditambahkan!');
+}
 
-            if (products.find((p) => p.ID_PRODUK === id)) {
-                alert('ID Produk sudah ada!');
-                return;
-            }
+function clearProdukForm() {
+    document.getElementById('namaProduk').value = '';
+    document.getElementById('hargaProduk').value = '';
+    // Set ID otomatis untuk produk berikutnya
+    setAutoProductId();
+}
 
-            products.push({
-                ID_PRODUK: id,
-                PRODUK: nama,
-                HARGA: harga,
-            });
+function updateProdukTable() {
+    const tbody = document.getElementById('bodyProduk');
+    tbody.innerHTML = '';
+    
+    products.forEach((product, index) => {
+        const row = `
+            <tr>
+                <td>${index + 1}</td>
+                <td>${product.ID_PRODUK}</td>
+                <td>${product.PRODUK}</td>
+                <td>Rp ${product.HARGA.toLocaleString('id-ID')}</td>
+                <td>
+                    <button class="btn btn-danger" onclick="hapusProduk('${product.ID_PRODUK}')">Hapus</button>
+                </td>
+            </tr>
+        `;
+        tbody.innerHTML += row;
+    });
+}
 
-            saveData();
-            updateProdukTable();
-            updateOptions();
-            clearProdukForm();
-            alert('Produk berhasil ditambahkan!');
-        }
+function hapusProduk(id) {
+    if (confirm('Yakin ingin menghapus produk ini?')) {
+        products = products.filter((p) => p.ID_PRODUK !== id);
+        saveData();
+        updateProdukTable();
+        updateOptions();
+        // Update ID otomatis setelah menghapus
+        setAutoProductId();
+        alert('Produk berhasil dihapus!');
+    }
+}
 
-        function clearProdukForm() {
-            document.getElementById('idProduk').value = '';
-            document.getElementById('namaProduk').value = '';
-            document.getElementById('hargaProduk').value = '';
-        }
+function clearProduk() {
+    if (confirm('Yakin ingin menghapus semua data produk?')) {
+        products = [];
+        saveData();
+        updateProdukTable();
+        updateOptions();
+        // Reset ID ke P001 setelah clear semua
+        setAutoProductId();
+        alert('Semua data produk berhasil dihapus!');
+    }
+}
 
-        function updateProdukTable() {
-            const tbody = document.getElementById('bodyProduk');
-            tbody.innerHTML = '';
+// Panggil fungsi ini saat halaman dimuat untuk set ID produk pertama
+document.addEventListener('DOMContentLoaded', function() {
+    setAutoProductId();
+});
 
-            products.forEach((product, index) => {
-                const row = `
-                    <tr>
-                        <td>${index + 1}</td>
-                        <td>${product.ID_PRODUK}</td>
-                        <td>${product.PRODUK}</td>
-                        <td>Rp ${product.HARGA.toLocaleString('id-ID')}</td>
-                        <td>
-                            <button class="btn btn-danger" onclick="hapusProduk('${product.ID_PRODUK}')">Hapus</button>
-                        </td>
-                    </tr>
-                `;
-                tbody.innerHTML += row;
-            });
-        }
-
-        function hapusProduk(id) {
-            if (confirm('Yakin ingin menghapus produk ini?')) {
-                products = products.filter((p) => p.ID_PRODUK !== id);
-                saveData();
-                updateProdukTable();
-                updateOptions();
-                alert('Produk berhasil dihapus!');
-            }
-        }
-
-        function clearProduk() {
-            if (confirm('Yakin ingin menghapus semua data produk?')) {
-                products = [];
-                saveData();
-                updateProdukTable();
-                updateOptions();
-                alert('Semua data produk berhasil dihapus!');
-            }
-        }
+// Fungsi untuk reset form produk dengan ID otomatis
+function resetProdukForm() {
+    clearProdukForm();
+    setAutoProductId();
+}
 
         // Transaction Management
         function updateOptions() {
